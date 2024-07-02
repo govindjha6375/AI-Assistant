@@ -1,4 +1,4 @@
-google-generativeai
+google_generativeai
 pillow
 streamlit
 streamlit-option-menu
@@ -10,3 +10,4 @@ chromadb
 faiss-cpu
 langchain
 langchain_community
+pathlib
