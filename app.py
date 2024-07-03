@@ -5,7 +5,7 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 from utils import (load_gemini_pro_model,extract_transcript_details,generate_gemini_content,
                    gemini_pro_response,get_response,get_session_state,get_response_image,prep_image,get_response_planner,
-                   get_response_nutrition,get_response_diet,user_input,get_vector_store,get_chunks,read_pdf)
+                   get_response_nutrition,get_response_diet,user_input)
 
 from youtube_transcript_api import YouTubeTranscriptApi
 
@@ -22,9 +22,8 @@ with st.sidebar:
                             'YouTube Summarizer',
                             'Ask me anything',
                             'Planner',
-                            'PDF ChatBot',
                             'Image ChatBot'],
-                           menu_icon='robot', icons=['chat-dots-fill', 'clipboard-pulse', 'youtube', 'patch-question-fill','list-task','filetype-pdf','card-image'],
+                           menu_icon='robot', icons=['chat-dots-fill', 'clipboard-pulse', 'youtube', 'patch-question-fill','list-task','card-image'],
                            default_index=0
                            )
 
@@ -258,17 +257,3 @@ if selected == "Personal Nutritionist":
             response = get_response_diet(input_prompt_diet, input_diet)
             st.subheader("Diet AI: ")
             st.write(response)
-
-if selected == "PDF ChatBot":
-    st.image("pdf.png", width=120)
-    st.title("📄 Chat with your PDF files using Google Gemini Pro")
-    user_query = st.text_input("Ast question for the PDF File?")
-    if user_query:
-        user_input(user_query)
-    pdf_docs = st.file_uploader("Upload your PDF File, and click Submit!", accept_multiple_files=True)
-    if st.button("Submit!"):
-        with st.spinner('Processing...'):
-            raw_text = read_pdf(pdf_docs)
-            text_chunks = get_chunks(raw_text)
-            get_vector_store(text_chunks)
-            st.success("Processing Done!")
