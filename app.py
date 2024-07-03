@@ -5,7 +5,7 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 from utils import (load_gemini_pro_model,extract_transcript_details,generate_gemini_content,
                    gemini_pro_response,get_response,get_session_state,get_response_image,prep_image,get_response_planner,
-                   get_response_nutrition,get_response_diet,user_input)
+                   get_response_nutrition,get_response_diet)
 
 from youtube_transcript_api import YouTubeTranscriptApi
 
