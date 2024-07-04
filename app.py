@@ -264,7 +264,7 @@ if selected == "TravelBot":
     st.title("TravelMate.AI ✈️")
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = [
-            AIMessage(content="Hello, I am Yatra Sevak.AI How can I help you?"),
+            AIMessage(content="Hello, I am TravelMate.AI How can I help you?"),
         ]
     # Display chat history
     for message in st.session_state.chat_history:
