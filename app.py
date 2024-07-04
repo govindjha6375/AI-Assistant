@@ -5,9 +5,10 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 from utils import (load_gemini_pro_model,extract_transcript_details,generate_gemini_content,
                    gemini_pro_response,get_response,get_session_state,get_response_image,prep_image,get_response_planner,
-                   get_response_nutrition,get_response_diet)
+                   get_response_nutrition,get_response_diet,get_response_travel)
 
 from youtube_transcript_api import YouTubeTranscriptApi
+from langchain_core.messages import AIMessage, HumanMessage
 
 st.set_page_config(
     page_title="Gemini AI",
@@ -19,11 +20,12 @@ with st.sidebar:
     selected = option_menu('Gemini AI',
                            ['ChatBot',
                             'Personal Nutritionist',
+                            'TravelBot',
                             'YouTube Summarizer',
                             'Ask me anything',
                             'Planner',
                             'Image ChatBot'],
-                           menu_icon='robot', icons=['chat-dots-fill', 'clipboard-pulse', 'youtube', 'patch-question-fill','list-task','card-image'],
+                           menu_icon='robot', icons=['chat-dots-fill', 'clipboard-pulse','airplane', 'youtube', 'patch-question-fill','list-task','card-image'],
                            default_index=0
                            )
 
@@ -257,3 +259,30 @@ if selected == "Personal Nutritionist":
             response = get_response_diet(input_prompt_diet, input_diet)
             st.subheader("Diet AI: ")
             st.write(response)
+
+if selected == "TravelBot":
+    st.title("TravelMate.AI ✈️")
+    if "chat_history" not in st.session_state:
+        st.session_state.chat_history = [
+            AIMessage(content="Hello, I am Yatra Sevak.AI How can I help you?"),
+        ]
+    # Display chat history
+    for message in st.session_state.chat_history:
+        if isinstance(message, AIMessage):
+            with st.chat_message("AI"):
+                st.write(message.content)
+        elif isinstance(message, HumanMessage):
+            with st.chat_message("Human"):
+                st.write(message.content)
+        
+    user_query = st.chat_input("Type your message here...")
+    if user_query is not None and user_query != "":
+        st.session_state.chat_history.append(HumanMessage(content=user_query))
+
+        with st.chat_message("Human"):
+            st.markdown(user_query)
+    response = get_response_travel(user_query, st.session_state.chat_history)
+    response = response.replace("AI response:", "").replace("chat response:", "").replace("bot response:", "").strip()
+    with st.chat_message("AI"):
+        st.write(response)
+    st.session_state.chat_history.append(AIMessage(content=response))
