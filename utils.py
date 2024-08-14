@@ -44,7 +44,7 @@ def gemini_pro_response(user_prompt):
     return result
 
 def get_response(input, image):
-    model = genai.GenerativeModel("gemini-pro-vision")
+    model = genai.GenerativeModel("gemini-1.5-flash-001")
     if input!="":
         response = model.generate_content([input, image])
     else:
@@ -55,7 +55,7 @@ def get_session_state():
     return st.session_state
 
 def get_response_image(image, prompt):
-    model = genai.GenerativeModel('gemini-pro-vision')
+    model = genai.GenerativeModel('gemini-1.5-flash-001')
     response = model.generate_content([image[0], prompt])
     return response.text
 #Prep Image Data
@@ -86,7 +86,7 @@ def get_response_diet(prompt, input):
     return response.text
 
 def get_response_nutrition(image, prompt):
-    model = genai.GenerativeModel('gemini-pro-vision')
+    model = genai.GenerativeModel('gemini-1.5-flash-001')
     response = model.generate_content([image[0], prompt])
     return response.text
 
